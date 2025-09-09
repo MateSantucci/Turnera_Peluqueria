@@ -1,0 +1,38 @@
+/* Estilos para un calendario tipo grilla */
+.calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+.calendar-table th, .calendar-table td {
+  width: 14.28%;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  background: #fafafa;
+  cursor: pointer;
+  font-size: 16px;
+}
+.calendar-table th {
+  background: #2196f3;
+  color: #fff;
+  font-weight: 600;
+}
+.calendar-table td.disabled {
+  background: #eee;
+  color: #bbb;
+  cursor: not-allowed;
+}
+.calendar-table td.selected {
+  background: #4caf50;
+  color: #fff;
+}
+.calendar-table td.today {
+  border: 2px solid #2196f3;
+}
+@media (max-width: 600px) {
+  .calendar-table th, .calendar-table td {
+    height: 28px;
+    font-size: 12px;
+  }
+}
