@@ -9,11 +9,11 @@
 </head>
 <body>
   <div class="container">
-    <h1 align="center">TURNERA PARA PELUQUERIA</h1>
-    <hr>
-    <h2>Reservar turno para este mes de SEPTIEMBRE 2025</h2>
+    <h1 align="center">Turnera para Peluquería</h1>
+    <h2>Reservá tu turno para SEPTIEMBRE 2025</h2>
   <div id="calendar"></div>
-    <div id="slots" class="slots"></div>
+  <button id="toggle-slots" class="toggle-slots-btn" style="display:none;margin:0 auto 18px auto;">Ocultar horarios</button>
+  <div id="slots" class="slots"></div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
@@ -58,7 +58,7 @@
       const month = today.getMonth();
       const days = getDaysInMonth(year, month);
       const firstDay = new Date(year, month, 1).getDay();
-      const weekDays = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+      const weekDays = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
       let table = document.createElement('table');
       table.className = 'calendar-table';
       let thead = document.createElement('thead');
@@ -112,16 +112,27 @@
       document.querySelectorAll('.day').forEach((el, idx) => {
         el.classList.toggle('selected', idx+1 === date.getDate());
       });
+      // Mostrar horarios y botón al seleccionar día
+      const slotsDiv = document.getElementById('slots');
+      const toggleBtn = document.getElementById('toggle-slots');
+      slotsDiv.style.display = 'flex';
+      toggleBtn.style.display = 'block';
       renderSlots();
     }
 
     function renderSlots() {
       const slotsDiv = document.getElementById('slots');
+      const toggleBtn = document.getElementById('toggle-slots');
       slotsDiv.innerHTML = '';
-      if(!selectedDate) return;
+      slotsDiv.style.display = 'flex';
+      if(!selectedDate) {
+        toggleBtn.style.display = 'none';
+        return;
+      }
       const slots = getSlots(selectedDate);
       if(slots.length === 0) {
         slotsDiv.innerHTML = '<span>No hay horarios disponibles.</span>';
+        toggleBtn.style.display = 'block';
         return;
       }
       slots.forEach(slot => {
@@ -131,7 +142,20 @@
         btn.onclick = () => confirmSlot(slot);
         slotsDiv.appendChild(btn);
       });
+      toggleBtn.style.display = 'block';
     }
+
+    // Mostrar/ocultar horarios
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleBtn = document.getElementById('toggle-slots');
+      const slotsDiv = document.getElementById('slots');
+      toggleBtn.style.display = 'none';
+      toggleBtn.textContent = 'Ocultar horarios';
+      toggleBtn.addEventListener('click', function() {
+        slotsDiv.style.display = 'none';
+        toggleBtn.style.display = 'none';
+      });
+    });
 
     function confirmSlot(slot) {
       Swal.fire({
@@ -148,6 +172,11 @@
           if(!booked[key]) booked[key] = [];
           booked[key].push(slot);
           Swal.fire('¡Turno reservado!', '', 'success');
+          // Ocultar horarios y botón después de reservar
+          const slotsDiv = document.getElementById('slots');
+          const toggleBtn = document.getElementById('toggle-slots');
+          slotsDiv.style.display = 'none';
+          toggleBtn.style.display = 'none';
           renderSlots();
         }
       });
