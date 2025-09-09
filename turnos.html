@@ -58,7 +58,7 @@
       const month = today.getMonth();
       const days = getDaysInMonth(year, month);
       const firstDay = new Date(year, month, 1).getDay();
-      const weekDays = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+      const weekDays = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
       let table = document.createElement('table');
       table.className = 'calendar-table';
       let thead = document.createElement('thead');
@@ -157,3 +157,4 @@
   </script>
 </body>
 </html>
+
